@@ -74,6 +74,8 @@ function init(){
         prependNewLine();
     }
     generateNewBlock();
+    
+    document.addEventListener("keydown",keyDown);
 }
 
 function prependNewLine(){
@@ -133,7 +135,6 @@ function seizeBlock(){
     movingBlocks.forEach(moving => {
         moving.classList.remove("moving");
         moving.classList.add("seized");
-    
     })
     checkMatch();
 }
@@ -184,7 +185,6 @@ function checkEmpty(target){
 }
 
 
-
 function moveBlock(moveType, amount){
     tempMovingItem[moveType] += amount;
     renderBlocks(moveType);
@@ -204,14 +204,14 @@ function dropBlock(){
 }
 
 function showGameoverText(){
-    console.log('확인');
     gameText.style.display = "flex";
+    document.removeEventListener('keydown', keyDown);
 }
 
 
 // event handling
 
-document.addEventListener("keydown", e=>{
+function keyDown(e){
     switch(e.keyCode){
         case 39:
             moveBlock("left", 1);
@@ -231,10 +231,12 @@ document.addEventListener("keydown", e=>{
         default:
             break;
     }
-})
+}
+
 
 restartButton.addEventListener("click", ()=>{
     playground.innerHTML ="";
+    scoreDisplay.innerHTML ="0";
     gameText.style.display ="none";
     init();
 })
