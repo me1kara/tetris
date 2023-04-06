@@ -6,12 +6,18 @@
 
 테트리스 클론코딩
 
-# 개발환경
+## 개발환경
 
 <img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=HTML5&logoColor=white"><img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=CSS3&logoColor=white">
 <img src="https://img.shields.io/badge/JS-F7DF1E?style=for-the-badge&logo=JavaScript&logoColor=white">
 <img src="https://img.shields.io/badge/jQuery-0769AD?style=for-the-badge&logo=jQuery&logoColor=white">
 <img src="https://img.shields.io/badge/Visual Studio-007ACC?style=for-the-badge&logo=Visual Studio&logoColor=white">
+
+## 조작키
+
+→ ← ↓ 이동 <br>
+↑ 방향전환 <br>
+space 즉시쌓기
 
 
 
