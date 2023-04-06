@@ -1,6 +1,8 @@
 # tetris
 
+<div style="margin:0 auto">
 <img src="https://user-images.githubusercontent.com/111833798/230324348-ca7adfbf-19d3-44b5-b84b-8905202ae962.png" width="500" height="550"><img src="https://user-images.githubusercontent.com/111833798/230323595-74208086-6fff-4f0b-9284-c3774e549337.png" width="500" height="550">
+</div>
 
 테트리스 클론코딩
 
