@@ -16,6 +16,7 @@ let score = 0;
 let duration = 500;
 let downInterval;
 let tempMovingItem;
+let time;
 
 
 const movingItem = {
@@ -69,11 +70,16 @@ init();
 
 function init(){
     tempMovingItem = {...movingItem}; //값만 복사
-
+    duration = 500;
+    
     for(let i=0;i<GAME_ROWS;i++){
         prependNewLine();
     }
     generateNewBlock();
+
+    time = setInterval(function(){
+        duration *= 4/5;
+    }, 20000);
     
     document.addEventListener("keydown",keyDown);
 }
@@ -125,6 +131,11 @@ function renderBlocks(moveType=""){
         }
 
     })
+    //스코어에 따른 속도 증가
+    if(score/7>0){
+        duration *= (score/7)*(4/5); 
+    }
+
     movingItem.left = left;
     movingItem.top = top;
     movingItem.direction = direction;
@@ -178,7 +189,8 @@ function generateNewBlock(){
 }
 
 function checkEmpty(target){
-    if(!target || target.classList.contains("seized")){
+    console.log(target);
+    if(target==null || target.classList.contains("seized")){
         return false;
     }
     return true;
@@ -205,6 +217,8 @@ function dropBlock(){
 
 function showGameoverText(){
     gameText.style.display = "flex";
+    clearInterval(time);
+    duration = 500;
     document.removeEventListener('keydown', keyDown);
 }
 
