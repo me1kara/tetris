@@ -20,10 +20,10 @@ let time;
 
 
 const movingItem = {
-    type:"tree", 
-    direction:0,
+    type:"", 
+    direction:3,
     top:0,
-    left:3,  
+    left:0,  
 };
 const BLOCKS = {
     tree : [
@@ -101,15 +101,16 @@ function renderBlocks(moveType=""){
 
     //기존에 있던 블럭 좌표의 클래스삭제
     movingBlocks.forEach(moving => {
-        moving.classList.remove(type, "moving");
-    
-    })
+        moving.classList.remove(type, "moving");  
+    });
 
     //갱신된 블럭 좌표에 클래스삽입
     BLOCKS[type][direction].some(block=>{
         const x = block[0] + left;
         const y = block[1] + top;
-        const target = playground.childNodes[y] ?playground.childNodes[y].childNodes[0].childNodes[x] : null;
+        const target = playground.childNodes[y] ? playground.childNodes[y].childNodes[0].childNodes[x] : null;
+        
+    
         const isAvilable = checkEmpty(target);
         
         if(isAvilable){
@@ -119,22 +120,19 @@ function renderBlocks(moveType=""){
             if(moveType ==='retry'){
                 clearInterval(downInterval);
                 showGameoverText();
-                return true;
             }
             setTimeout(()=>{
                 renderBlocks('retry');
                 if(moveType ==="top"){
+                    console.log(target);
                     seizeBlock();
                 }  
-            },0)
+            },0);
             return true; 
         }
 
     })
-    //스코어에 따른 속도 증가
-    if(score/7>0){
-        duration *= (score/7)*(4/5); 
-    }
+
 
     movingItem.left = left;
     movingItem.top = top;
@@ -146,7 +144,7 @@ function seizeBlock(){
     movingBlocks.forEach(moving => {
         moving.classList.remove("moving");
         moving.classList.add("seized");
-    })
+    });
     checkMatch();
 }
 
@@ -164,18 +162,24 @@ function checkMatch(){
             prependNewLine();
             score++;
             scoreDisplay.innerHTML = score;
+                //스코어에 따른 속도 증가
+            console.log(score);
+            if(score%7==0){
+                console.log(score/7);
+                duration *= (score/7)*(4/5); 
+            }
         }
     })
-
+    
     generateNewBlock();
 }
 
 function generateNewBlock(){
-
+    
     clearInterval(downInterval);
     downInterval = setInterval(()=>{
-        moveBlock("top",1)
-    },duration)
+        moveBlock("top",1);
+    },duration);
 
     const blockArray = Object.entries(BLOCKS);
     const randomIndex = Math.floor(Math.random()*blockArray.length);
@@ -185,15 +189,15 @@ function generateNewBlock(){
     movingItem.left = 3;
     movingItem.direction = 0;
     tempMovingItem = {...movingItem};
+
     renderBlocks();
 }
 
 function checkEmpty(target){
-    console.log(target);
-    if(target==null || target.classList.contains("seized")){
+    //null은
+    if(!target || target.classList.contains("seized")){
         return false;
-    }
-    return true;
+    }else return true;
 }
 
 
@@ -216,8 +220,8 @@ function dropBlock(){
 }
 
 function showGameoverText(){
-    gameText.style.display = "flex";
     clearInterval(time);
+    gameText.style.display = "flex";
     duration = 500;
     document.removeEventListener('keydown', keyDown);
 }
