@@ -5,6 +5,7 @@
 // dom
 const playground = document.querySelector(".playground>ul");
 const gameText = document.querySelector(".game-text");
+const stopText = document.querySelector(".stop-text");
 const scoreDisplay = document.querySelector(".score");
 const restartButton = document.querySelector(".game-text>button");
 // setting
@@ -120,6 +121,7 @@ function renderBlocks(moveType=""){
             if(moveType ==='retry'){
                 clearInterval(downInterval);
                 showGameoverText();
+                return true;
             }
             setTimeout(()=>{
                 renderBlocks('retry');
@@ -161,14 +163,14 @@ function checkMatch(){
             child.remove();
             prependNewLine();
             score++;
+            clearRows();
             scoreDisplay.innerHTML = score;
-                //스코어에 따른 속도 증가
-            console.log(score);
+            //스코어에 따른 속도 증가           
             if(score%7==0){
                 console.log(score/7);
                 duration *= (score/7)*(4/5); 
             }
-        }
+        }else dropShape();
     })
     
     generateNewBlock();
@@ -220,15 +222,35 @@ function dropBlock(){
 }
 
 function showGameoverText(){
+    overGame();
     clearInterval(time);
     gameText.style.display = "flex";
     duration = 500;
     document.removeEventListener('keydown', keyDown);
 }
 
+function stopGame(){
+    stopText.style.display = "flex";
+    clearInterval(downInterval);
+
+    document.removeEventListener('keydown', keyDown);
+    document.addEventListener('keydown', esc);
+
+}
+
+function startGame(){
+    stopText.style.display = "none";
+    downInterval = setInterval(()=>{
+        moveBlock("top",1);
+    },duration);
+    
+    document.removeEventListener('keydown', esc);
+    document.addEventListener('keydown', keyDown);
+
+}
+
 
 // event handling
-
 function keyDown(e){
     switch(e.keyCode){
         case 39:
@@ -246,11 +268,44 @@ function keyDown(e){
         case 32:
             dropBlock();
             break;
+        case 27:
+            stopGame(); 
+            break;
         default:
             break;
     }
 }
 
+function esc(e){
+    switch(e.keyCode){
+    case 27:
+        startGame();
+        break;
+    default:
+        break;
+    }
+}
+
+const audioOver = new Audio('audio/over.mp3');
+const audioDrop = new Audio('audio/drop.mp3');
+const audioClear = new Audio('audio/clear.mp3');
+
+function overGame() {
+  audioOver.play();
+  // Over the game
+}
+
+function dropShape() {
+  audioDrop.play();
+  // Drop the shape
+}
+
+function clearRows() {
+  audioClear.play();
+  // Clear the rows
+}
+
+document.querySelector(".stop-text > button").addEventListener("click", startGame);
 
 restartButton.addEventListener("click", ()=>{
     playground.innerHTML ="";
