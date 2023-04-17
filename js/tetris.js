@@ -232,6 +232,8 @@ function showGameoverText(){
 function stopGame(){
     stopText.style.display = "flex";
     clearInterval(downInterval);
+    clearInterval(time);
+
 
     document.removeEventListener('keydown', keyDown);
     document.addEventListener('keydown', esc);
@@ -243,6 +245,10 @@ function startGame(){
     downInterval = setInterval(()=>{
         moveBlock("top",1);
     },duration);
+
+    time = setInterval(function(){
+        duration *= 4/5;
+    }, 20000);
     
     document.removeEventListener('keydown', esc);
     document.addEventListener('keydown', keyDown);

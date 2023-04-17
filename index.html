@@ -9,18 +9,26 @@
 </head>
 <body>
     <div class="wrapper">
-        <div class="game-text">
+        <div class="game-text" style="z-index: 10;">
             <span>게임종료!!!</span>
             <button>다시시작</button>
         </div>
-        <div class="stop-text">
+        <div class="stop-text" style="z-index: 10;">
             <span>일시정지</span>
             <button>다시시작</button>    
         </div>
-        <div class="score"><span>0</span></div>
+        <div class="score"><span>점수 </span><span>0</span></div>
         <div class="playground">
             <ul></ul>
+            <div class="guideKey">
+                <p><span>방향전환</span><span>⬆</span></p>
+                <p><span>방향이동</span><span>⬅⬇➡</span></p>
+                <p><span>즉시이동</span><span>space</span></p>
+                <p><span>일시정지</span><span>esc</span></p>
+            </div>
         </div>
+
+        
     </div>
     
     <script src="js/tetris.js"></script>
